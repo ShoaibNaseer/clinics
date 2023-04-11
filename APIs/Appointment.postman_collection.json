@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "88b00b87-2236-4e68-bcdb-99138901bb25",
+		"name": "Appointment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26813740"
+	},
+	"item": [
+		{
+			"name": "add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"patient_email\" : \"naseer.shoaib92@gmail.com\",\r\n    \"counsellor_email\" : \"asad_counsellor_2@gmail.com\",\r\n    \"appointment_date\" : \"2023-04-12 23:45:15\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/appointment/add/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"appointment",
+						"add",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"asad change\",\r\n    \"email\" : \"asad_patient@gmail.com\",\r\n    \"password\" : \"Test@12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/appointment/update/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"appointment",
+						"update",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/appointment/lists/?is_active=1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"appointment",
+						"lists",
+						""
+					],
+					"query": [
+						{
+							"key": "is_active",
+							"value": "1"
+						},
+						{
+							"key": "date_to",
+							"value": "2023-04-12",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/patient/delete/?email=naseer.shoaib92@gmail.com",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"patient",
+						"delete",
+						""
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "naseer.shoaib92@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
