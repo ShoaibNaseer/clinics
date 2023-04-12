@@ -13,8 +13,8 @@ def createAppointment(request):
     patient_email = request.data['patient_email']
     counsellor_email = request.data['counsellor_email']
     try:
-        patient_id = Patient.objects.get(email=patient_email).id
-        counsellor_id = Counsellor.objects.get(email=counsellor_email).id
+        patient_id = Patient.objects.get(email=patient_email, is_active=1).id
+        counsellor_id = Counsellor.objects.get(email=counsellor_email, is_active=1).id
     except Patient.DoesNotExist:
         return Response({'error': 'Patient not found'}, status=404)
     except Counsellor.DoesNotExist:
@@ -25,6 +25,9 @@ def createAppointment(request):
             return Response({'error': 'Date cant be in past'}, status=404)
     except:
         return Response({'error': 'Date has invalid format. It must be yyyy-m-d h:m:s'}, status=404)
+    is_appointment = Appointment.objects.filter(patient_id=patient_id, counsellor_id=counsellor_id, appointment_date=appointment_date)
+    if is_appointment:
+        return Response({'error': 'Patient and Counsellor has already an appointment on particular date'}, status=404)
     data = {
         'patient_id': patient_id,
         'counsellor_id': counsellor_id,
@@ -36,6 +39,7 @@ def createAppointment(request):
         serializer.save()
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
+
 
 @api_view(['PUT'])
 def updateAppointment(request):
@@ -54,6 +58,9 @@ def updateAppointment(request):
             return Response({'error': 'Date cant be in past'}, status=404)
     except:
         return Response({'error': 'Date has invalid format. It must be yyyy-m-d h:m:s'}, status=404)
+    is_appointment = Appointment.objects.filter(patient_id=patient_id, counsellor_id=counsellor_id, appointment_date=appointment_date)
+    if is_appointment:
+        return Response({'error': 'Patient and Counsellor has already an appointment on particular date'}, status=404)
     data = {
         'patient_id': patient_id,
         'counsellor_id': counsellor_id,
@@ -65,6 +72,21 @@ def updateAppointment(request):
         serializer.save()
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
+
+@api_view(['DELETE'])
+def deleteAppointment(request):
+    id = request.query_params.get('id')
+    if id:
+        try:
+            appointment = Appointment.objects.get(id=id)
+        except:
+            return Response({'error': 'Appointment not found'}, status=404)
+        appointment.is_active = False
+        appointment.save(update_fields=['is_active'])
+        serializer = AppointmentSerializer(appointment)
+        return Response(serializer.data)
+    return Response({'error': 'Missing parameter'}, status=400)
+
 
 @api_view(['DELETE'])
 def deleteCounsellor(request):
